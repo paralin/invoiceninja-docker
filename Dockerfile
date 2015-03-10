@@ -6,21 +6,17 @@ RUN apt-get update --assume-yes --quiet && apt-get install --assume-yes --quiet 
 
 RUN curl -sL https://deb.nodesource.com/setup | sudo bash -
 
-RUN apt-get install -y nodejs && apt-get clean
-
-RUN npm install -g bower grunt-cli
+RUN apt-get install -y nodejs && apt-get clean && npm install -g bower grunt-cli
 
 #get latest composer
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
 # configuration for invoice ninja
-RUN php5enmod mcrypt
-RUN a2enmod rewrite
-RUN rm -fr /app
+RUN php5enmod mcrypt && a2enmod rewrite
 
 # add invoice ninja files
-RUN mkdir /app/
+RUN rm -rf /app/ && mkdir /app/
 ADD invoice-ninja /app/
 RUN cd /app/ && rm composer.lock && composer install --prefer-source --no-dev && bower --allow-root install
 RUN chown -R www-data:www-data /app/
