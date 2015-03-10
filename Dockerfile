@@ -18,7 +18,7 @@ RUN php5enmod mcrypt && a2enmod rewrite
 # add invoice ninja files
 RUN rm -rf /app/
 ADD invoice-ninja /var/www/invoice-ninja
-RUN cd /var/www/invoice-ninja/ && rm composer.lock && composer install --prefer-source --no-dev && bower --allow-root install && chown -R www-data:www-data /var/www/invoice-ninja/ && chmod 0777 -R /var/www/invoice-ninja/
+RUN cd /var/www/invoice-ninja/ && rm composer.lock && composer install --prefer-source --no-dev && bower --allow-root install && chown -R www-data:www-data /var/www/invoice-ninja/
 
 # define some environment variables
 # database
@@ -33,8 +33,8 @@ ENV APPLICATION_URL http://www.invoiceninja.com/
 
 # add files
 ADD docker-apache.conf /etc/apache2/sites-enabled/000-default.conf
-ADD database.php /app/app/config/database.php
-ADD app.php /app/app/config/app.php
+ADD database.php /var/www/invoice-ninja/app/config/database.php
+ADD app.php /var/www/invoice-ninja/app/config/app.php
 ADD run-invoice-ninja.sh /run-invoice-ninja.sh
 ADD database-setup.sql /var/database-setup.sql
 
