@@ -26,7 +26,7 @@ RUN rm -fr /app
 # add invoice ninja files
 RUN mkdir /var/www/invoice-ninja/
 ADD invoice-ninja /var/www/invoice-ninja
-RUN cd /var/www/invoice-ninja && composer dump-autoload && composer install && bower install
+RUN cd /var/www/invoice-ninja && rm composer.lock && composer install && bower install
 RUN chown -R www-data:www-data /var/www/invoice-ninja
 
 # define some environment variables
