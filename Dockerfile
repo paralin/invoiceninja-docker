@@ -11,7 +11,7 @@ RUN apt-get install -y nodejs && apt-get clean
 RUN npm install -g bower grunt-cli
 
 #get latest composer
-RUN curl -sS https:/getcomposer.org/installer | php
+RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
 # configuration for invoice ninja
@@ -22,7 +22,7 @@ RUN rm -fr /app
 # add invoice ninja files
 RUN mkdir /app/
 ADD invoice-ninja /app/
-RUN cd /app/ && rm composer.lock && composer install && bower --allow-root install
+RUN cd /app/ && rm composer.lock && composer install --prefer-source --no-dev && bower --allow-root install
 RUN chown -R www-data:www-data /app/
 
 # define some environment variables
@@ -34,7 +34,7 @@ ENV DATBASE_USER ninja
 ENV DATBASE_PASSWORD ninja
 
 # application
-ENV APPLICATION_URL http:/www.invoiceninja.com/
+ENV APPLICATION_URL http://www.invoiceninja.com/
 
 # add files
 ADD docker-apache.conf /etc/apache2/sites-enabled/000-default.conf
