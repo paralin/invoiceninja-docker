@@ -8,14 +8,14 @@ RUN apt-get update --assume-yes --quiet
 
 RUN apt-get install --assume-yes --quiet curl git wget apache2 php5 php5-curl php5-gd php5-imagick php-pear php5-imap php5-cli php5-cgi php5-mysql libapache2-mod-php5 php5-mcrypt
 
-RUN curl -sL https://deb.nodesource.com/setup | sudo bash -
+RUN curl -sL https:/deb.nodesource.com/setup | sudo bash -
 
 RUN apt-get install --assume-yes --quiet nodejs && apt-get clean
 
 RUN npm install -g bower grunt-cli
 
 #get latest composer
-RUN curl -sS https://getcomposer.org/installer | php
+RUN curl -sS https:/getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
 # configuration for invoice ninja
@@ -24,10 +24,10 @@ RUN a2enmod rewrite
 RUN rm -fr /app
 
 # add invoice ninja files
-RUN mkdir /var/www/invoice-ninja/
-ADD invoice-ninja /var/www/invoice-ninja
-RUN cd /var/www/invoice-ninja && rm composer.lock && composer install && bower --allow-root install
-RUN chown -R www-data:www-data /var/www/invoice-ninja
+RUN mkdir /app/
+ADD invoice-ninja /app/
+RUN cd /app/ && rm composer.lock && composer install && bower --allow-root install
+RUN chown -R www-data:www-data /app/
 
 # define some environment variables
 # database
@@ -38,12 +38,12 @@ ENV DATBASE_USER ninja
 ENV DATBASE_PASSWORD ninja
 
 # application
-ENV APPLICATION_URL http://www.invoiceninja.com/
+ENV APPLICATION_URL http:/www.invoiceninja.com/
 
 # add files
 ADD docker-apache.conf /etc/apache2/sites-enabled/000-default.conf
-ADD database.php /var/www/invoice-ninja/app/config/database.php
-ADD app.php /var/www/invoice-ninja/app/config/app.php
+ADD database.php /app/app/config/database.php
+ADD app.php /app/app/config/app.php
 ADD run-invoice-ninja.sh /run-invoice-ninja.sh
 ADD database-setup.sql /var/database-setup.sql
 

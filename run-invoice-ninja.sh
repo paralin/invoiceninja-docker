@@ -11,4 +11,4 @@ else
     touch FILE
 fi
 
-./run.sh
+/bin/bash /run.sh
