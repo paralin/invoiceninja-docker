@@ -47,5 +47,5 @@ ADD app.php /var/www/invoice-ninja/app/config/app.php
 ADD run-invoice-ninja.sh /run-invoice-ninja.sh
 ADD database-setup.sql /var/database-setup.sql
 
-EXPOSE 80
 CMD ["/run-invoice-ninja.sh"]
+EXPOSE 80
