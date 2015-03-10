@@ -12,11 +12,11 @@ RUN curl -sL https://deb.nodesource.com/setup | sudo bash -
 
 RUN apt-get install --assume-yes --quiet nodejs && apt-get clean
 
-RUN npm install -g bower
+RUN npm install -g bower grunt-cli
 
 #get latest composer
 RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/sbin/composer
+RUN mv composer.phar /usr/local/bin/composer
 
 # configuration for invoice ninja
 RUN php5enmod mcrypt
@@ -26,7 +26,7 @@ RUN rm -fr /app
 # add invoice ninja files
 RUN mkdir /var/www/invoice-ninja/
 ADD invoice-ninja /var/www/invoice-ninja
-RUN cd /var/www/invoice-ninja && composer install && bower install
+RUN cd /var/www/invoice-ninja && composer dump-autoload && composer install && bower install
 RUN chown -R www-data:www-data /var/www/invoice-ninja
 
 # define some environment variables
