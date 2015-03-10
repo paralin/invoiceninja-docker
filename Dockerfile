@@ -4,7 +4,7 @@ MAINTAINER Christian Stewart <kidovate@gmail.com>
 # ubdate first
 RUN apt-get update --assume-yes --quiet && apt-get install --assume-yes --quiet curl git wget apache2 php5 php5-curl php5-gd php5-imagick php-pear php5-imap php5-cli php5-cgi php5-mysql libapache2-mod-php5 php5-mcrypt
 
-RUN curl -sL https:/deb.nodesource.com/setup | sudo bash - ;
+RUN curl -sL https://deb.nodesource.com/setup | sudo bash -
 
 RUN apt-get install -y nodejs && apt-get clean
 
