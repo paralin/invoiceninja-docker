@@ -5,7 +5,7 @@ FILE="/var/www/invoice-ninja/.lock-artisan"
 
 if [ -f $FILE ];
 then
-    
+    echo "Migration already complete"
 else
     php /var/www/invoice-ninja/artisan migrate --seed
     touch FILE
