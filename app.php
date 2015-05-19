@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => false,
+	'debug' => env('APP_DEBUG', ''),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'url' => getenv('APPLICATION_URL'),
+	'url' => env('APPLICATION_URL', ''),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -56,6 +56,19 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Application Fallback Locale
+	|--------------------------------------------------------------------------
+	|
+	| The fallback locale determines the locale to use when the current one
+	| is not available. You may change the value to correspond to any of
+	| the language folders that are provided through your application.
+	|
+	*/
+
+	'fallback_locale' => 'en',
+
+	/*
+	|--------------------------------------------------------------------------
 	| Encryption Key
 	|--------------------------------------------------------------------------
 	|
@@ -63,11 +76,26 @@ return array(
 	| to a random, 32 character string, otherwise these encrypted strings
 	| will not be safe. Please do this before deploying an application!
 	|
-	| Command below will generate a random 32 character alphanumeric string
-	| cat /dev/random | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
 	*/
 
-	'key' => '',
+	'key' => env('APP_KEY', ''),
+
+	'cipher' => env('APP_CIPHER', MCRYPT_RIJNDAEL_128),
+
+	/*
+	|--------------------------------------------------------------------------
+	| Logging Configuration
+	|--------------------------------------------------------------------------
+	|
+	| Here you may configure the log settings for your application. Out of
+	| the box, Laravel uses the Monolog PHP logging library. This gives
+	| you a variety of powerful log handlers / formatters to utilize.
+	|
+	| Available Settings: "single", "daily", "syslog", "errorlog"
+	|
+	*/
+
+	'log' => 'single',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,63 +108,55 @@ return array(
 	|
 	*/
 
-	'providers' => array(
+	'providers' => [
 
+		/*
+		 * Laravel Framework Service Providers...
+		 */
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
+		'Illuminate\Bus\BusServiceProvider',
 		'Illuminate\Cache\CacheServiceProvider',
-		'Illuminate\Foundation\Providers\CommandCreatorServiceProvider',
-		'Illuminate\Session\CommandsServiceProvider',
-		'Illuminate\Foundation\Providers\ComposerServiceProvider',
+		'Illuminate\Foundation\Providers\ConsoleSupportServiceProvider',
 		'Illuminate\Routing\ControllerServiceProvider',
 		'Illuminate\Cookie\CookieServiceProvider',
 		'Illuminate\Database\DatabaseServiceProvider',
 		'Illuminate\Encryption\EncryptionServiceProvider',
 		'Illuminate\Filesystem\FilesystemServiceProvider',
+		'Illuminate\Foundation\Providers\FoundationServiceProvider',
 		'Illuminate\Hashing\HashServiceProvider',
-		'Illuminate\Html\HtmlServiceProvider',
-		'Illuminate\Foundation\Providers\KeyGeneratorServiceProvider',
-		'Illuminate\Log\LogServiceProvider',
 		'Illuminate\Mail\MailServiceProvider',
-		'Illuminate\Foundation\Providers\MaintenanceServiceProvider',
-		'Illuminate\Database\MigrationServiceProvider',
-		'Illuminate\Foundation\Providers\OptimizeServiceProvider',
 		'Illuminate\Pagination\PaginationServiceProvider',
-		'Illuminate\Foundation\Providers\PublisherServiceProvider',
+		'Illuminate\Pipeline\PipelineServiceProvider',
 		'Illuminate\Queue\QueueServiceProvider',
 		'Illuminate\Redis\RedisServiceProvider',
-		'Illuminate\Auth\Reminders\ReminderServiceProvider',
-		'Illuminate\Foundation\Providers\RouteListServiceProvider',
-		'Illuminate\Database\SeedServiceProvider',
-		'Illuminate\Foundation\Providers\ServerServiceProvider',
+		'Illuminate\Auth\Passwords\PasswordResetServiceProvider',
 		'Illuminate\Session\SessionServiceProvider',
-		'Illuminate\Foundation\Providers\TinkerServiceProvider',
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
-		'Illuminate\Workbench\WorkbenchServiceProvider',
-		'Illuminate\Remote\RemoteServiceProvider',
-		'Bootstrapper\BootstrapperServiceProvider',
-		'Zizaco\Confide\ConfideServiceProvider',
+
+		/*
+		 * Additional Providers
+		 */
+		'Bootstrapper\BootstrapperL5ServiceProvider',
 		'Former\FormerServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
 		'Chumper\Datatable\DatatableServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
-		'Webpatser\Countries\CountriesServiceProvider'
-	),
+    	'Webpatser\Countries\CountriesServiceProvider',
+    	'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
+    	'Illuminate\Html\HtmlServiceProvider',
 
-	/*
-	|--------------------------------------------------------------------------
-	| Service Provider Manifest
-	|--------------------------------------------------------------------------
-	|
-	| The service provider manifest is used by Laravel to lazy load service
-	| providers which are not needed for each request, as well to keep a
-	| list of all of the services. Here, you may set its storage spot.
-	|
-	*/
-
-	'manifest' => storage_path() . '/meta',
+		/*
+		 * Application Service Providers...
+		 */
+		'App\Providers\AppServiceProvider',
+		'App\Providers\BusServiceProvider',
+		'App\Providers\ConfigServiceProvider',
+		'App\Providers\EventServiceProvider',
+		'App\Providers\RouteServiceProvider',
+	],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -149,7 +169,7 @@ return array(
 	|
 	*/
 
-	'aliases' => array(
+	'aliases' => [
 
 		'App'             => 'Illuminate\Support\Facades\App',
 		'Artisan'         => 'Illuminate\Support\Facades\Artisan',
@@ -172,7 +192,7 @@ return array(
 		'Lang'            => 'Illuminate\Support\Facades\Lang',
 		'Log'             => 'Illuminate\Support\Facades\Log',
 		'Mail'            => 'Illuminate\Support\Facades\Mail',
-		'Paginator'       => 'Illuminate\Support\Facades\Paginator',
+		//'Paginator'       => 'Illuminate\Support\Facades\Paginator',
 		'Password'        => 'Illuminate\Support\Facades\Password',
 		'Queue'           => 'Illuminate\Support\Facades\Queue',
 		'Redirect'        => 'Illuminate\Support\Facades\Redirect',
@@ -187,31 +207,69 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-		'SSH' 			      => 'Illuminate\Support\Facades\SSH',
-		'Alert'           => 'Bootstrapper\Alert',
-		'Badge'           => 'Bootstrapper\Badge',
-		'Breadcrumb'      => 'Bootstrapper\Breadcrumb',
-		'Button'          => 'Bootstrapper\Button',
-		'ButtonGroup'     => 'Bootstrapper\ButtonGroup',
-		'ButtonToolbar'   => 'Bootstrapper\ButtonToolbar',
-		'Carousel'        => 'Bootstrapper\Carousel',
-		'DropdownButton'  => 'Bootstrapper\DropdownButton',
-		'Form'            => 'Bootstrapper\Form',
-		'Helpers'         => 'Bootstrapper\Helpers',
-		'Icon'            => 'Bootstrapper\Icon',
-		'Image'           => 'Bootstrapper\Image',
-		'Label'           => 'Bootstrapper\Label',
-		'MediaObject'     => 'Bootstrapper\MediaObject',
-		'Navbar'          => 'Bootstrapper\Navbar',
-		'Navigation'      => 'Bootstrapper\Navigation',
-		'Paginator'       => 'Bootstrapper\Paginator',
-		'Progress'        => 'Bootstrapper\Progress',
-		'Tabbable'        => 'Bootstrapper\Tabbable',
-		'Table'           => 'Bootstrapper\Table',
-		'Thumbnail'       => 'Bootstrapper\Thumbnail',
-		'Typeahead'       => 'Bootstrapper\Typeahead',
-		'Typography'      => 'Bootstrapper\Typography',
-		'Confide'    	    => 'Zizaco\Confide\ConfideFacade',
+
+		/*'App'       => 'Illuminate\Support\Facades\App',
+		'Artisan'   => 'Illuminate\Support\Facades\Artisan',
+		'Auth'      => 'Illuminate\Support\Facades\Auth',
+		'Blade'     => 'Illuminate\Support\Facades\Blade',
+		'Bus'       => 'Illuminate\Support\Facades\Bus',
+		'Cache'     => 'Illuminate\Support\Facades\Cache',
+		'Config'    => 'Illuminate\Support\Facades\Config',
+		'Cookie'    => 'Illuminate\Support\Facades\Cookie',
+		'Crypt'     => 'Illuminate\Support\Facades\Crypt',
+		'DB'        => 'Illuminate\Support\Facades\DB',
+		'Eloquent'  => 'Illuminate\Database\Eloquent\Model',
+		'Event'     => 'Illuminate\Support\Facades\Event',
+		'File'      => 'Illuminate\Support\Facades\File',
+		'Hash'      => 'Illuminate\Support\Facades\Hash',
+		'Input'     => 'Illuminate\Support\Facades\Input',
+		'Inspiring' => 'Illuminate\Foundation\Inspiring',
+		'Lang'      => 'Illuminate\Support\Facades\Lang',
+		'Log'       => 'Illuminate\Support\Facades\Log',
+		'Mail'      => 'Illuminate\Support\Facades\Mail',
+		'Password'  => 'Illuminate\Support\Facades\Password',
+		'Queue'     => 'Illuminate\Support\Facades\Queue',
+		'Redirect'  => 'Illuminate\Support\Facades\Redirect',
+		'Redis'     => 'Illuminate\Support\Facades\Redis',
+		'Request'   => 'Illuminate\Support\Facades\Request',
+		'Response'  => 'Illuminate\Support\Facades\Response',
+		'Route'     => 'Illuminate\Support\Facades\Route',
+		'Schema'    => 'Illuminate\Support\Facades\Schema',
+		'Session'   => 'Illuminate\Support\Facades\Session',
+		'Storage'   => 'Illuminate\Support\Facades\Storage',
+		'URL'       => 'Illuminate\Support\Facades\URL',
+		'Validator' => 'Illuminate\Support\Facades\Validator',
+		'View'      => 'Illuminate\Support\Facades\View',*/
+
+		// Added Class Aliases
+
+		'Utils'			  => 'App\Libraries\Utils',
+		'Form'			  => 'Illuminate\Html\FormFacade',
+		'HTML'			  => 'Illuminate\Html\HtmlFacade',
+		'SSH' 			  => 'Illuminate\Support\Facades\SSH',
+		'Alert'           => 'Bootstrapper\Facades\Alert',
+		'Badge'           => 'Bootstrapper\Facades\Badge',
+		'Breadcrumb'      => 'Bootstrapper\Facades\Breadcrumb',
+		'Button'          => 'Bootstrapper\Facades\Button',
+		'ButtonGroup'     => 'Bootstrapper\Facades\ButtonGroup',
+		'ButtonToolbar'   => 'Bootstrapper\Facades\ButtonToolbar',
+		'Carousel'        => 'Bootstrapper\Facades\Carousel',
+		'DropdownButton'  => 'Bootstrapper\Facades\DropdownButton',
+		'Form'            => 'Bootstrapper\Facades\Form',
+		'Helpers'         => 'Bootstrapper\Facades\Helpers',
+		'Icon'            => 'Bootstrapper\Facades\Icon',
+		//'Image'           => 'Bootstrapper\Facades\Image',
+		'Label'           => 'Bootstrapper\Facades\Label',
+		'MediaObject'     => 'Bootstrapper\Facades\MediaObject',
+		'Navbar'          => 'Bootstrapper\Facades\Navbar',
+		'Navigation'      => 'Bootstrapper\Facades\Navigation',
+		'Paginator'       => 'Bootstrapper\Facades\Paginator',
+		'Progress'        => 'Bootstrapper\Facades\Progress',
+		'Tabbable'        => 'Bootstrapper\Facades\Tabbable',
+		'Table'           => 'Bootstrapper\Facades\Table',
+		'Thumbnail'       => 'Bootstrapper\Facades\Thumbnail',
+		'Typeahead'       => 'Bootstrapper\Facades\Typeahead',
+		'Typography'      => 'Bootstrapper\Facades\Typography',
 		'Former'          => 'Former\Facades\Former',
 		'Datatable'       => 'Chumper\Datatable\Facades\DatatableFacade',
 		'Omnipay'         => 'Omnipay\Omnipay',
@@ -220,5 +278,7 @@ return array(
 		'Countries'       => 'Webpatser\Countries\CountriesFacade',
 		'Carbon'          => 'Carbon\Carbon',
 		'Rocketeer'       => 'Rocketeer\Facades\Rocketeer',
-	),
-);
+
+	],
+
+];
