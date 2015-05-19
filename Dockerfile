@@ -18,7 +18,7 @@ RUN php5enmod mcrypt && a2enmod rewrite
 # add invoice ninja files
 RUN rm -rf /app/
 ADD invoice-ninja /var/www/invoice-ninja
-RUN cd /var/www/invoice-ninja/ && bower --allow-root install && composer install --prefer-source && chown -R www-data:www-data /var/www/invoice-ninja/
+RUN cd /var/www/invoice-ninja/ && bower --allow-root install && composer install --no-dev --prefer-source && chown -R www-data:www-data /var/www/invoice-ninja/
 
 # define some environment variables
 # database
