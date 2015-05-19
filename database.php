@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => getenv('DATBASE_TYPE'),
+	'default' => env('DATBASE_TYPE', 'mysql'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -44,46 +44,47 @@ return array(
 	|
 	*/
 
-	'connections' => array(
+	'connections' => [
 
-		'sqlite' => array(
+		'sqlite' => [
 			'driver'   => 'sqlite',
-			'database' => __DIR__.'/../database/invoices.sqlite',
+			'database' => storage_path().'/database.sqlite',
 			'prefix'   => '',
-		),
+		],
 
-		'mysql' => array(
+		'mysql' => [
 			'driver'    => 'mysql',
-			'host'      => getenv('DATBASE_HOST'),
-			'database'  => getenv('DATBASE_NAME'),
-			'username'  => getenv('DATBASE_USER'),
-			'password'  => getenv('DATBASE_PASSWORD'),
+			'host'      => env('DATBASE_HOST', 'localhost'),
+			'database'  => env('DATBASE_NAME', 'forge'),
+			'username'  => env('DATBASE_USER', 'forge'),
+			'password'  => env('DATBASE_PASSWORD', ''),
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
-		),
-	
-		'pgsql' => array(
+			'strict'    => false,
+		],
+
+		'pgsql' => [
 			'driver'   => 'pgsql',
-			'host'     => getenv('DATBASE_HOST'),
-			'database' => getenv('DATBASE_NAME'),
-			'username' => getenv('DATBASE_USER'),
-			'password' => getenv('DATBASE_PASSWORD'),
+			'host'     => env('DB_HOST', 'localhost'),
+			'database' => env('DB_DATABASE', 'forge'),
+			'username' => env('DB_USERNAME', 'forge'),
+			'password' => env('DB_PASSWORD', ''),
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
-		),
+		],
 
-		'sqlsrv' => array(
+		'sqlsrv' => [
 			'driver'   => 'sqlsrv',
-			'host'     => getenv('DATBASE_HOST'),
-			'database' => getenv('DATBASE_NAME'),
-			'username' => getenv('DATBASE_USER'),
-			'password' => getenv('DATBASE_PASSWORD'),
+			'host'     => env('DB_HOST', 'localhost'),
+			'database' => env('DB_DATABASE', 'forge'),
+			'username' => env('DB_USERNAME', 'forge'),
+			'password' => env('DB_PASSWORD', ''),
 			'prefix'   => '',
-		),
+		],
 
-	),
+	],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -92,7 +93,7 @@ return array(
 	|
 	| This table keeps track of all the migrations that have already run for
 	| your application. Using this information, we can determine which of
-	| the migrations on disk have not actually be run in the databases.
+	| the migrations on disk haven't actually been run in the database.
 	|
 	*/
 
@@ -109,16 +110,16 @@ return array(
 	|
 	*/
 
-	'redis' => array(
+	'redis' => [
 
 		'cluster' => false,
 
-		'default' => array(
+		'default' => [
 			'host'     => '127.0.0.1',
 			'port'     => 6379,
 			'database' => 0,
-		),
+		],
 
-	),
+	],
 
-);
+];
