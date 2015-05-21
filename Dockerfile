@@ -35,6 +35,7 @@ ENV APPLICATION_URL http://www.invoiceninja.com/
 ADD docker-apache.conf /etc/apache2/sites-enabled/000-default.conf
 ADD database.php /var/www/invoice-ninja/config/database.php
 ADD app.php /var/www/invoice-ninja/config/app.php
+ADD services.php /var/www/invoice-ninja/config/services.php
 ADD run-invoice-ninja.sh /run-invoice-ninja.sh
 ADD database-setup.sql /var/database-setup.sql
 
