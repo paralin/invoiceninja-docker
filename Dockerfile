@@ -1,43 +1,24 @@
-FROM tutum/apache-php:latest
-MAINTAINER Christian Stewart <kidovate@gmail.com>
+FROM debian:7.9
 
-# ubdate first
-RUN apt-get update --assume-yes --quiet && apt-get install --assume-yes --quiet curl git wget apache2 php5 php5-curl php5-gd php5-imagick php-pear php5-imap php5-cli php5-cgi php5-mysql libapache2-mod-php5 php5-mcrypt
+RUN apt-get update && apt-get install curl wget vim openssl git -y
+RUN echo "deb http://packages.dotdeb.org wheezy all" >> /etc/apt/sources.list \
+     && echo "deb http://packages.dotdeb.org wheezy-php56 all" >> /etc/apt/sources.list \
+     && wget -qO - http://www.dotdeb.org/dotdeb.gpg | apt-key add -
 
-RUN curl -sL https://deb.nodesource.com/setup | sudo bash -
+RUN apt-get update && apt-get install -y nginx php5-fpm php5-cli php5-mcrypt php5-gd php5-curl php5-mysql php5-pgsql \
+    && curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer \
+    && php5enmod mcrypt
 
-RUN apt-get install -y nodejs && apt-get clean && npm install -g bower grunt-cli
+RUN git clone https://github.com/paralin/invoice-ninja.git /var/www/invoice-ninja/ --recursive --depth=1
+WORKDIR /var/www/invoice-ninja/
+RUN composer install --no-dev -o
 
-#get latest composer
-RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/local/bin/composer
+ADD nginx_site.conf /etc/nginx/sites-available/invoice_ninja
+ADD invoice_ninja_fpm.conf /etc/php5/fpm/pool.d/invoice_ninja.conf
+ADD start.sh /var/www/invoice-ninja/start.sh
+RUN ln -s /etc/nginx/sites-available/invoice_ninja /etc/nginx/sites-enabled/invoice_ninja && \
+    chown -R www-data:www-data /var/www/invoice-ninja
 
-# configuration for invoice ninja
-RUN php5enmod mcrypt && a2enmod rewrite
-
-# add invoice ninja files
-RUN rm -rf /app/
-ADD invoice-ninja /var/www/invoice-ninja
-RUN cd /var/www/invoice-ninja/ && bower --allow-root install && composer install --no-dev --prefer-source && chown -R www-data:www-data /var/www/invoice-ninja/
-
-# define some environment variables
-# database
-ENV DATBASE_TYPE mysql
-ENV DATBASE_HOST db
-ENV DATBASE_NAME ninja
-ENV DATBASE_USER ninja
-ENV DATBASE_PASSWORD ninja
-
-# application
-ENV APPLICATION_URL http://www.invoiceninja.com/
-
-# add files
-ADD docker-apache.conf /etc/apache2/sites-enabled/000-default.conf
-ADD database.php /var/www/invoice-ninja/config/database.php
-ADD app.php /var/www/invoice-ninja/config/app.php
-ADD services.php /var/www/invoice-ninja/config/services.php
-ADD run-invoice-ninja.sh /run-invoice-ninja.sh
-ADD database-setup.sql /var/database-setup.sql
-
-CMD ["/run-invoice-ninja.sh"]
+CMD ["bash", "start.sh"]
 EXPOSE 80
